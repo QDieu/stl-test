@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Sidebar } from "../components/sidebar/sidebar";
 import { Users } from "../components/users";
 import { TUser } from "../types/User";
+import { UserAPI } from "../api/users-api";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -13,7 +14,7 @@ const Wrapper = styled.div`
 `;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const data = await (await fetch(`http://localhost:3004/users${context.resolvedUrl}`)).json();
+  const data = await UserAPI.getUsers(context.resolvedUrl);
 
   return {
     props: { users: data },

@@ -2,6 +2,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import styled from "styled-components";
+import { UserAPI } from "../api/users-api";
 import { TUser } from "../types/User";
 
 type TStyle = {
@@ -58,7 +59,7 @@ const ButtonSubmit = styled.input`
 `;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const data: Array<TUser> = await (await fetch("http://localhost:3004/users")).json();
+  const data: Array<TUser> = await UserAPI.getUsers("");
 
   const paths = data.map(({ id }) => ({
     params: { id: id.toString() },
@@ -71,9 +72,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  console.log(context.params);
   const { id } = context.params as IParams;
-  const data = await (await fetch(`http://localhost:3004/users/${id}`)).json();
+  const data = await UserAPI.getUserInfo(id);
   if (!data) {
     return {
       notFound: true,
@@ -90,11 +90,12 @@ type TProps = {
 };
 
 const User: React.FC<TProps> = ({ user }) => {
-  const { name, username, address, phone, website, email } = user || {};
+  const { name, username, address, phone, website, email, age } = user || {};
   const { zipcode, street, city } = address || {};
 
   const nameInputElement = React.useRef<HTMLInputElement>(null);
   const userNameInputElement = React.useRef<HTMLInputElement>(null);
+  const ageInputElement = React.useRef<HTMLInputElement>(null);
   const emailInputElement = React.useRef<HTMLInputElement>(null);
   const cityInputElement = React.useRef<HTMLInputElement>(null);
   const streetInputElement = React.useRef<HTMLInputElement>(null);
@@ -108,6 +109,7 @@ const User: React.FC<TProps> = ({ user }) => {
     const data = {
       name: nameInputElement.current?.value,
       username: userNameInputElement.current?.value,
+      age: ageInputElement.current?.value,
       email: emailInputElement.current?.value,
       city: cityInputElement.current?.value,
       street: streetInputElement.current?.value,
@@ -136,6 +138,10 @@ const User: React.FC<TProps> = ({ user }) => {
               type="text"
               defaultValue={username}
             />
+          </InputWrapper>
+          <InputWrapper>
+            <Label htmlFor="age">Age</Label>
+            <Input id="age" placeholder="Age" ref={ageInputElement} type="number" defaultValue={age} />
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="email">E-mail</Label>
