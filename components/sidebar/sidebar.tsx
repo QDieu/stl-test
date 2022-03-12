@@ -25,8 +25,8 @@ type TProps = {};
 
 export const Sidebar: React.FC<TProps> = () => {
   const itemsCategory = [
-    ["address.city", "по городу"],
-    ["company.name", "по компании"],
+    ["country", "по стране"],
+    ["email", "по почте"],
     ["name", "по имени"],
     ["age", "по возрасту"],
   ];

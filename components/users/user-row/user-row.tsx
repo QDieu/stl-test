@@ -47,13 +47,11 @@ const Button = styled.div`
 `;
 
 type TProps = {
-  user: TUser;
+  user?: TUser;
 };
 
 export const UserRow: React.FC<TProps> = ({ user }) => {
-  const { name, address, company, age, id } = user || {};
-
-  const { city } = address || {};
+  const { name, country, age, id, email } = user || {};
 
   return (
     <Wrapper>
@@ -63,12 +61,12 @@ export const UserRow: React.FC<TProps> = ({ user }) => {
           <Details>{name}</Details>
         </InfoRow>
         <InfoRow>
-          <Description>{`Город: `}</Description>
-          <Details>{city}</Details>
+          <Description>{`Страна: `}</Description>
+          <Details>{country}</Details>
         </InfoRow>
         <InfoRow>
-          <Description>{`Компания: `}</Description>
-          <Details>{company.name}</Details>
+          <Description>{`Почта: `}</Description>
+          <Details>{email}</Details>
         </InfoRow>
         <InfoRow>
           <Description>{`Возвраст: `}</Description>
