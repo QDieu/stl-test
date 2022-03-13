@@ -1,17 +1,17 @@
-import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
-import React from "react";
-import { UserAPI } from "../api/users-api";
-import { UserInfoForm } from "../components/user-info";
-import { TUser } from "../types/User";
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
+import React from 'react';
+import { UserAPI } from '../api/users-api';
+import { UserInfoForm } from '../components/user-info';
+import { TUser } from '../types/User';
 
 interface IParams extends ParsedUrlQuery {
   id: string;
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const data: Array<TUser> = await UserAPI.getUsers("");
+  const data: Array<TUser> = await UserAPI.getUsers('');
 
   const paths = data.map(({ id }) => ({
     params: { id: id.toString() },
@@ -44,10 +44,13 @@ type TProps = {
 const User: React.FC<TProps> = ({ user }) => {
   const router = useRouter();
 
-  const onUpdateUserForm = React.useCallback(async (data) => {
-    await UserAPI.patchUserInfo(user.id.toString(), data);
-    router.push("/");
-  }, []);
+  const onUpdateUserForm = React.useCallback(
+    async (data) => {
+      await UserAPI.patchUserInfo(user.id.toString(), data);
+      router.push('/');
+    },
+    [router, user.id],
+  );
 
   return <UserInfoForm user={user} onSubmitForm={onUpdateUserForm} />;
 };

@@ -1,8 +1,7 @@
-import { ParsedUrlQuery } from "querystring";
-import React from "react";
-import styled from "styled-components";
-import { UserAPI } from "../../api/users-api";
-import { TUser } from "../../types/User";
+import React from 'react';
+import styled from 'styled-components';
+import { TUser } from '../../types/User';
+import { Autocomplete } from '../autocomplete';
 
 type TStyle = {
   isError?: boolean;
@@ -34,7 +33,7 @@ const Input = styled.input<TStyle>`
   width: 40%;
   border-radius: 5px;
   border: 2px solid;
-  border-color: ${({ isError }) => (isError ? "#D91313" : "#d8d8d8")};
+  border-color: ${({ isError }) => (isError ? '#D91313' : '#d8d8d8')};
   box-sizing: border-box;
   padding: 5px 10px;
   font-size: 12px;
@@ -68,19 +67,22 @@ export const UserInfoForm: React.FC<TProps> = ({ user, onSubmitForm }) => {
   const countryInputElement = React.useRef<HTMLInputElement>(null);
   const phoneInputElement = React.useRef<HTMLInputElement>(null);
 
-  const formHandler = React.useCallback((event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const formHandler = React.useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-    const data = {
-      name: nameInputElement.current?.value,
-      username: userNameInputElement.current?.value,
-      age: ageInputElement.current?.value,
-      email: emailInputElement.current?.value,
-      country: countryInputElement.current?.value,
-      phone: phoneInputElement.current?.value,
-    };
-    onSubmitForm(data);
-  }, []);
+      const data = {
+        name: nameInputElement.current?.value,
+        username: userNameInputElement.current?.value,
+        age: ageInputElement.current?.value,
+        email: emailInputElement.current?.value,
+        country: countryInputElement.current?.value,
+        phone: phoneInputElement.current?.value,
+      };
+      onSubmitForm(data);
+    },
+    [onSubmitForm],
+  );
 
   return (
     <Wrapper>
@@ -109,8 +111,7 @@ export const UserInfoForm: React.FC<TProps> = ({ user, onSubmitForm }) => {
             <Input id="email" placeholder="E-mail" ref={emailInputElement} type="email" defaultValue={email} />
           </InputWrapper>
           <InputWrapper>
-            <Label htmlFor="country">Country</Label>
-            <Input id="country" placeholder="Country" ref={countryInputElement} type="text" defaultValue={country} />
+            <Autocomplete country={country} ref={countryInputElement} />
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="phone">Phone</Label>
