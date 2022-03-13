@@ -10,35 +10,47 @@ const Wrapper = styled.div`
 `;
 
 const Label = styled.label`
-  margin-bottom: 3px;
+  font-size : 14px;
+  line-height: 17px
+  margin-bottom: 6px;
+  color : #1A1A1A;
 `;
 
-const Input = styled.input<{ isError?: boolean }>`
-  width: 40%;
+const Input = styled.input`
+  width: 100%;
+  height: 59px;
   border-radius: 5px;
-  border: 2px solid;
-  border-color: ${({ isError }) => (isError ? '#D91313' : '#d8d8d8')};
+  border: 1px solid #949494;
   box-sizing: border-box;
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 14px;
+  padding: 20px 12px;
+  font-size: 16px;
+  line-height: 19px;
+
+  outline: none;
+
+  &:focus {
+    border-color: #543fd3;
+  }
 `;
 
 const List = styled.ul`
-  width: 40%;
-  border: 2px solid #d8d8d8;
-  border-top-width: 0;
+  width: 100%;
+  border: 1px solid #949494;
   list-style: none;
   margin-top: 0;
 
   max-height: 145px;
   overflow-y: auto;
 
-  padding-left: 0;
+  padding: 20px 12px 20px 0;
+  border-top: 0px;
 
   position: absolute;
-  top: 49px;
+  top: 60px;
   background-color: #fff;
+
+  font-size: 16px;
+  line-height: 19px;
 
   & li {
     padding: 0.5rem;
@@ -61,6 +73,14 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, TProps>(({ countr
   const [countryName, setCountryName] = React.useState(country);
   const [activeList, setActiveList] = React.useState(false);
 
+  const rootElement = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const onClick = (e: MouseEvent) => rootElement.current?.contains(e.target as Node) || setActiveList(false);
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  });
+
   const onChangeText = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setActiveList(true);
     setCountryName(e.currentTarget.value);
@@ -73,7 +93,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, TProps>(({ countr
   }, []);
 
   return (
-    <Wrapper>
+    <Wrapper ref={rootElement}>
       <Label htmlFor="country">Country</Label>
       <Input
         id="country"
@@ -83,7 +103,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, TProps>(({ countr
         onChange={onChangeText}
         autoComplete="off"
       />
-      {filteredList.length && activeList && (
+      {filteredList.length && activeList ? (
         <List>
           {filteredList.map((item) => (
             <li key={item} onClick={() => onClickListItem(item)}>
@@ -91,7 +111,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, TProps>(({ countr
             </li>
           ))}
         </List>
-      )}
+      ) : null}
     </Wrapper>
   );
 });

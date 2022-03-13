@@ -15,40 +15,53 @@ const Wrapper = styled.div`
 const ContentForm = styled.div`
   border-radius: 8px;
   border: 2px solid #f3f3f3;
-  margin-bottom: 10px;
   padding: 20px 12px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const InputWrapper = styled.div`
+  width: 60%;
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
 `;
 
 const Label = styled.label`
-  margin-bottom: 3px;
+  font-size : 14px;
+  line-height: 17px
+  margin-bottom: 6px;
+  color : #1A1A1A;
 `;
 
-const Input = styled.input<TStyle>`
-  width: 40%;
+const Input = styled.input`
+  width: 100%;
+  height: 59px;
   border-radius: 5px;
-  border: 2px solid;
-  border-color: ${({ isError }) => (isError ? '#D91313' : '#d8d8d8')};
+  border: 1px solid #949494;
   box-sizing: border-box;
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 14px;
+  padding: 20px 12px;
+  font-size: 16px;
+  line-height: 19px;
+
+  outline: none;
+
+  &:focus {
+    border-color: #543fd3;
+  }
 `;
 
 const ButtonSubmit = styled.input`
   display: block;
   border: none;
-  border-radius: 5px;
-  padding: 8px;
+  border-radius: 16px;
+  padding: 12px 24px;
   background-color: #52cf4f;
   color: #fff;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 16px;
+  line-height: 20px;
   cursor: pointer;
 `;
 

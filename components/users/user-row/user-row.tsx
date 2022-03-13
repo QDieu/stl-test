@@ -1,83 +1,61 @@
-import Link from "next/link";
-import React from "react";
-import styled from "styled-components";
-import { TUser } from "../../../types/User";
+import Link from 'next/link';
+import React from 'react';
+import styled from 'styled-components';
+import { TUser } from '../../../types/User';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 14px;
-  padding: 10px;
-  box-sizing: border-box;
-  border-radius: 8px;
-  background-color: #f3f3f3;
+type TStyle = {
+  odd?: boolean;
+};
+
+const Wrapper = styled.tr<TStyle>`
+  text-align: center;
+  background-color: ${({ odd }) => (odd ? '#f6f6f6' : 'inherit')};
+  padding-top: 10px;
+  padding-left: 20px;
 `;
 
-const InfoRow = styled.div``;
-
-const Description = styled.span`
-  color: #a3a3a3;
-  font-size: 14px;
-  line-height: 16px;
-  font-weight: 400;
-`;
-
-const Details = styled.span`
-  font-size: 14px;
-  line-height: 16px;
+const TextWrapper = styled.p`
+  color: #252b42;
   font-weight: 500;
-  margin-left: 7px;
-`;
-
-const LeftBlock = styled.div``;
-
-const RightBlock = styled.div`
-  margin-top: auto;
-`;
-
-const Button = styled.div`
-  color: #4b51ef;
-  font-size: 14px;
-  line-height: 16px;
-  font-weight: 400;
-  &:hover {
-    cursor: pointer;
-  }
+  font-size: 18px;
+  line-height: 26px;
 `;
 
 type TProps = {
   user?: TUser;
+  odd?: boolean;
 };
 
-export const UserRow: React.FC<TProps> = ({ user }) => {
+export const UserRow: React.FC<TProps> = ({ user, odd }) => {
   const { name, country, age, id, email } = user || {};
 
+  const fullName = name && name.split(' ');
+
   return (
-    <Wrapper>
-      <LeftBlock>
-        <InfoRow>
-          <Description>{`ФИО: `}</Description>
-          <Details>{name}</Details>
-        </InfoRow>
-        <InfoRow>
-          <Description>{`Страна: `}</Description>
-          <Details>{country}</Details>
-        </InfoRow>
-        <InfoRow>
-          <Description>{`Почта: `}</Description>
-          <Details>{email}</Details>
-        </InfoRow>
-        <InfoRow>
-          <Description>{`Возвраст: `}</Description>
-          <Details>{age}</Details>
-        </InfoRow>
-      </LeftBlock>
-      <RightBlock>
-        <Link href={`/${id}`}>
-          <Button>Подробнее</Button>
+    <Wrapper odd={odd}>
+      <td>
+        <TextWrapper>{id}</TextWrapper>
+      </td>
+      <td>{fullName && <TextWrapper>{fullName[0]}</TextWrapper>}</td>
+      <td>{fullName && <TextWrapper>{fullName[1]}</TextWrapper>}</td>
+      <td>
+        <TextWrapper>{country}</TextWrapper>
+      </td>
+      <td>
+        <TextWrapper>{email}</TextWrapper>
+      </td>
+      <td>
+        <TextWrapper>{age}</TextWrapper>
+      </td>
+      <td>
+        <Link href={`/${id}`} passHref>
+          <TextWrapper>
+            <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
+              <path d="M0 13.7143L5.71428 8L0 2.28571L1.14286 0L9.14286 8L1.14286 16L0 13.7143Z" fill={'#C0C0C0'} />
+            </svg>
+          </TextWrapper>
         </Link>
-      </RightBlock>
+      </td>
     </Wrapper>
   );
 };
