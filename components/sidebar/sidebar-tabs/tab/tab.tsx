@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React from 'react';
-import styled from 'styled-components';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
+import styled from "styled-components";
 
 const ContentWrapper = styled.div`
   padding: 5px 15px;
@@ -25,7 +25,7 @@ const ContentWrapper = styled.div`
 const TextWrapper = styled.span`
   font-size: 18px;
   line-height: 24px;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   color: #fff;
 `;
 
@@ -39,11 +39,12 @@ export const Tab: React.FC<TProps> = ({ item }) => {
   const [order, setOrder] = React.useState(true);
 
   React.useEffect(() => {
+    console.log("up");
     asPath.includes(`sort=${item[0]}`) ? setOrder(!order) : !order && setOrder(true);
-  }, [asPath, item, order]);
+  }, [asPath, item]);
 
   return (
-    <Link href={`/?_sort=${item[0]}&_order=${order ? 'asc' : 'desc'}`} passHref>
+    <Link href={`/?_sort=${item[0]}&_order=${order ? "asc" : "desc"}`} passHref>
       <ContentWrapper>
         <TextWrapper>{item[1]}</TextWrapper>
       </ContentWrapper>

@@ -1,6 +1,6 @@
-import React, { ReducerAction } from 'react';
-import styled from 'styled-components';
-import { countryList } from './country-list';
+import React, { ReducerAction } from "react";
+import styled from "styled-components";
+import { countryList } from "./country-list";
 
 const Wrapper = styled.div`
   position: relative;
@@ -77,20 +77,20 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, TProps>(({ countr
 
   React.useEffect(() => {
     const onClick = (e: MouseEvent) => rootElement.current?.contains(e.target as Node) || setActiveList(false);
-    document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
-  });
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
 
-  const onChangeText = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setActiveList(true);
     setCountryName(e.currentTarget.value);
-    setFilteredList(countryList.filter((item) => item.includes(e.currentTarget.value)));
-  }, []);
+    setFilteredList(countryList.filter((item) => item.toLowerCase().includes(e.currentTarget.value.toLowerCase())));
+  };
 
-  const onClickListItem = React.useCallback((item) => {
+  const onClickListItem = (item: string) => {
     setCountryName(item);
     setActiveList(false);
-  }, []);
+  };
 
   return (
     <Wrapper ref={rootElement}>
@@ -116,4 +116,4 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, TProps>(({ countr
   );
 });
 
-Autocomplete.displayName = 'Autocomplete';
+Autocomplete.displayName = "Autocomplete";

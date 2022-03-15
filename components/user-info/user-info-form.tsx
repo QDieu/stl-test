@@ -1,11 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { TUser } from '../../types/User';
-import { Autocomplete } from '../autocomplete';
-
-type TStyle = {
-  isError?: boolean;
-};
+import React from "react";
+import styled from "styled-components";
+import { TUser } from "../../types/User";
+import { Autocomplete } from "../autocomplete";
 
 const Wrapper = styled.div`
   display: flex;
@@ -71,7 +67,7 @@ type TProps = {
 };
 
 export const UserInfoForm: React.FC<TProps> = ({ user, onSubmitForm }) => {
-  const { name, country, age, id = 1, email, phone, username } = user || {};
+  const { name, country, age, email, phone, username } = user || {};
 
   const nameInputElement = React.useRef<HTMLInputElement>(null);
   const userNameInputElement = React.useRef<HTMLInputElement>(null);
@@ -80,22 +76,19 @@ export const UserInfoForm: React.FC<TProps> = ({ user, onSubmitForm }) => {
   const countryInputElement = React.useRef<HTMLInputElement>(null);
   const phoneInputElement = React.useRef<HTMLInputElement>(null);
 
-  const formHandler = React.useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
+  const formHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-      const data = {
-        name: nameInputElement.current?.value,
-        username: userNameInputElement.current?.value,
-        age: ageInputElement.current?.value,
-        email: emailInputElement.current?.value,
-        country: countryInputElement.current?.value,
-        phone: phoneInputElement.current?.value,
-      };
-      onSubmitForm(data);
-    },
-    [onSubmitForm],
-  );
+    const data = {
+      name: nameInputElement.current?.value,
+      username: userNameInputElement.current?.value,
+      age: ageInputElement.current?.value,
+      email: emailInputElement.current?.value,
+      country: countryInputElement.current?.value,
+      phone: phoneInputElement.current?.value,
+    };
+    onSubmitForm(data);
+  };
 
   return (
     <Wrapper>
